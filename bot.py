@@ -3,6 +3,7 @@ import html
 import json
 import logging
 import traceback
+import os
 
 from telegram import KeyboardButton, ReplyKeyboardMarkup, WebAppInfo, Update
 from telegram.ext import (
@@ -73,7 +74,7 @@ async def error_handler(update: object, context: CallbackContext.DEFAULT_TYPE) -
 def main() -> None:
     # """Start the bot."""
     # Create the Application and pass it your bot's token.
-    application = Application.builder().token("").build()
+    application = Application.builder().token(os.getenv('BOTAPIKEY')).build()
 
     # on different commands - answer in Telegram
     application.add_handler(CommandHandler("start", start))
