@@ -6,6 +6,7 @@ import traceback
 import os
 
 from telegram import KeyboardButton, ReplyKeyboardMarkup, WebAppInfo, Update
+import telegram
 from telegram.ext import (
     CommandHandler,
     Application,
@@ -45,24 +46,38 @@ async def echo(update: Update, context: CallbackContext.DEFAULT_TYPE) -> None:
     if update.effective_message.web_app_data is None:
         return
 
+    await context.bot.send_message(chat_id=os.getenv('DEVELOPER_CHAT_ID'), text=f"user {update.effective_user.name} completed purchase")
+
     body = ""
+    amount = 0
     data = json.loads(update.effective_message.web_app_data.data)
     for i in data:
-        temp = f'{i["title"]} {i["count"]} шт - {i["count"] * i["price"]} ₽ \n'
+        temp = f'{i["title"]} ({i["count"]} шт) - {i["count"] * i["price"]} ₽ \n'
         body += temp
+        amount += i["count"] * i["price"]
 
     msg = f"""Спасибо за заказ {update.effective_message.from_user.name}! 🍰
 
 *Ваш заказ*:
 {body}
+Финальная стоимость: {amount} ₽
+
 В ближайшее время с Вами свяжутся!
 
 Хорошего дня!
 """
 
     
-    """Echo the user message."""
     await update.message.reply_markdown(text=msg)
+    
+    adMsg = f"""Создайте свой интернет-магазин в Telegram уже сегодня!
+
+Для примера максимальной фукнциональности, Вы можете ознакомиться с официальным ботом @DurgerKingBot от команды Telegram!
+
+[Больше информации доступно на нашем сайте](https://catabot.xyz/)
+"""
+    await update.message.reply_markdown(text=adMsg)
+
 
 
 async def error_handler(update: object, context: CallbackContext.DEFAULT_TYPE) -> None:
