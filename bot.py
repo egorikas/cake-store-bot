@@ -46,7 +46,7 @@ async def echo(update: Update, context: CallbackContext.DEFAULT_TYPE) -> None:
     if update.effective_message.web_app_data is None:
         return
 
-    #await context.bot.send_message(chat_id=os.getenv('DEVELOPER_CHAT_ID'), text=f"user {update.effective_user.name} completed purchase")
+    await context.bot.send_message(chat_id=os.getenv('DEVELOPER_CHAT_ID'), text=f"user {update.effective_user.name} completed purchase")
 
     body = ""
     amount = 0
@@ -56,7 +56,7 @@ async def echo(update: Update, context: CallbackContext.DEFAULT_TYPE) -> None:
         body += temp
         amount += i["count"] * i["price"]
 
-    msg = f"""Спасибо за заказ! 🍰
+    msg = f"""Спасибо за заказ {update.effective_message.from_user.name}! 🍰
 
 *Ваш заказ*:
 {body}
