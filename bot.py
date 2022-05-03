@@ -56,8 +56,12 @@ async def echo(update: Update, context: CallbackContext.DEFAULT_TYPE) -> None:
         body += temp
         amount += i["count"] * i["price"]
 
-    msg = f"""Спасибо за заказ {update.effective_message.from_user.name}! 🍰
+    notion = """
+        С примером оплаты за товар, Вы можете ознакомиться в официальном боте @DurgerKingBot от команды Telegram  
+    """
+    await update.message.reply_markdown(text=notion)
 
+    msg = f"""Спасибо за заказ {update.effective_message.from_user.name}! 🍰
 *Ваш заказ*:
 {body}
 Финальная стоимость: {amount} ₽
@@ -66,18 +70,13 @@ async def echo(update: Update, context: CallbackContext.DEFAULT_TYPE) -> None:
 
 Хорошего дня!
 """
-
-    
     await update.message.reply_markdown(text=msg)
     
     adMsg = f"""Создайте свой интернет-магазин в Telegram уже сегодня!
 
-Для примера максимальной фукнциональности, Вы можете ознакомиться с официальным ботом @DurgerKingBot от команды Telegram!
-
 [Больше информации доступно на нашем сайте](https://catabot.xyz/)
 """
     await update.message.reply_markdown(text=adMsg)
-
 
 
 async def error_handler(update: object, context: CallbackContext.DEFAULT_TYPE) -> None:
